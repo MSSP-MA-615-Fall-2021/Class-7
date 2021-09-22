@@ -1,0 +1,66 @@
+---
+title: "Assignment 1"
+author: "Zening Ye"
+date: "9/22/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(tidyverse) #Pull up the function we will use
+data(mtcars) # Select the data 
+mtcars_mpg2 <- mtcars[mtcars$mpg <20,] # Select the data for mpg < 20
+
+mtcars_mpg2 <- mtcars_mpg2[, c(1,2,3,4,10)] # Select column from mtcars_mpg2 in 1, 2, 3, 4, 10
+
+source(file = "hand_functions.R", echo = TRUE) # Use the function create by R. Scrip
+
+sp_out <- sum_special(mtcars_mpg2) # Name the data in different way
+```
+
+```{r}
+#### Plot the data with x = disp, y = mpg by using geom_point() and create a smooth line for the entire data. 
+ggplot(mtcars_mpg2) +
+  aes(x = disp, y = mpg) +
+  geom_point(shape = "bullet", size = 4L, colour = "#B22222") +
+  geom_smooth(span = 0.5) +
+  theme_minimal()
+```
+
+# note that this boxplot cannot be made with esquisse() unless
+# the data is adjusted.  What adjustment is needed?
+```{r}
+ggplot(mtcars_mpg2, aes(x=as.factor(cyl), y=mpg)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2) + 
+  xlab("cyl")
+
+```
+
+By factoring cyl we change the data from a vector to a factor, then we can use factor data to create a boxlpot.
+
+What I learned from this class is to use esquisser(data = mtcars_mpg2, viewer = "browser") to create a plot and get in touch with tidyverse. In addition, to understand how to change shape in ggplot function. 
